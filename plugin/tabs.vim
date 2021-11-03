@@ -16,6 +16,20 @@ function TabLabel(n, style)
     let file = bufname(buflist[tabpagewinnr(a:n) - 1])
     let label = substitute(file, '.*/', '', '')
 
+    " If active NERDTree or Tagbar - ignore their names in the tab.
+    " On the tab we try to find a buffer with a real file.
+    for i in buflist
+        let s:file=fnamemodify(bufname(i), '')
+        let s:is_tagbar_buffer=stridx(s:file, '__Tagbar__') == 0
+        let s:is_nerdtree_buffer=stridx(s:file, 'NERD_tree_') == 0
+        """ silent execute '!echo '. file .' >> ~/.vimdebug.tmp'
+        if bufexists(i) && !s:is_tagbar_buffer && !s:is_nerdtree_buffer
+            let file=s:file
+            let label=substitute(s:file, '.*/', '', '')
+            break
+        endif
+    endfor
+
     if label == ''
         let label = '[No Name]'
         let label = ' ' . a:n . '. ' . label
