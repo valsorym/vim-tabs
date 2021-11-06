@@ -81,13 +81,14 @@ function TabName(style)
         endif
 
         let str .= '%' . (i + 1) . 'T'
-        let str .= ' %{TabLabel(' . (i + 1) . ', ' . a:style . ')} |'
+        let str .= ' %{TabLabel(' . (i + 1) . ', ' . a:style . ')} ▕'
     endfor
 
     let str .= '%#TabLineFill#%T'
 
     if tabpagenr('$') > 1
-        let str .= '%=%#TabLine#%999XX'
+        " let str .= '%=%#TabLine#%999XX' " with 'x' button
+        let str .= '%=%#TabLine#%'
     endif
 
     return str
